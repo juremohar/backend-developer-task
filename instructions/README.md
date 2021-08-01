@@ -27,6 +27,7 @@ All dependencies are installed at the start of the program
 in appsettings.Development.json you need to set "ConnectionStrings", to your instance of database
 
 It should look something like that:
+```
 {
   "Logging": {
     "LogLevel": {
@@ -39,7 +40,7 @@ It should look something like that:
     "DefaultConnection": "server=localhost; port=3306; database=notes; user=root; password=root;"
   }
 }
-
+```
 
 I was running the API in visual studio via IIS.
 
@@ -57,7 +58,7 @@ I tried to do it as scalable as I could think of. You could have used a bool for
 You could also have IdFolder in notes table, but I made m:n table for it.
 
 A few example api calls:
-
+```
 curl --request GET \
   --url 'https://localhost:5001/note?OrderByDirection=desc&OrderByField=heading' \
   --header 'Authorization: Basic ZG9wcGxlcjpkb3BwbGVy'
@@ -84,7 +85,7 @@ curl --request POST \
   ]
 }'
 
-
+```
 
 I hope I did everything in the task that was requested. If I missed something please let me know.
 
