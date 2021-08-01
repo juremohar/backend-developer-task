@@ -40,6 +40,7 @@ namespace NotesAPI
             });
 
             services.AddTransient<INoteService, NoteService>();
+            services.AddTransient<IFolderService, FolderService>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddHttpContextAccessor();
