@@ -26,7 +26,6 @@ namespace NotesAPI.Models
 
     public class GetFoldersFilterModel
     {
-        public int? IdUser { get; set; }
         public string Query { get; set; }
         public int Page { get; set; } = 1;
         public int Limit { get; set; } = 10;

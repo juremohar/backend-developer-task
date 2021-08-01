@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NotesAPI.Interfaces;
 using NotesAPI.Models;
+using System.Collections.Generic;
 
 namespace NotesAPI.Controllers
 {
@@ -26,10 +27,30 @@ namespace NotesAPI.Controllers
             return true;
         }
 
-        [HttpDelete("{idNote}")]
-        public ActionResult<bool> Delete(int idNote)
+        [HttpPatch("{id}")]
+        public ActionResult<bool> Update(int id, UpdateNoteModel model)
         {
-            _noteService.DeleteNote(idNote);
+            _noteService.UpdateNote(id, model);
+
+            return true;
+        }
+
+        [HttpGet]
+        public ActionResult<List<NoteModel>> GetNotes([FromQuery] GetNotesFilterModel model)
+        {
+            return _noteService.GetNotes(model);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<NoteModel> GetNoteById(int id)
+        {
+            return _noteService.GetNoteById(id);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<bool> Delete(int id)
+        {
+            _noteService.DeleteNote(id);
 
             return true;
         }

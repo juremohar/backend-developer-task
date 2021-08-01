@@ -10,5 +10,8 @@ namespace NotesAPI.Interfaces
     {
         void InsertNote(InsertNoteModel model);
         void DeleteNote(int idNote);
+        void UpdateNote(int idNote, UpdateNoteModel model);
+        NoteModel GetNoteById(int idNote);
+        List<NoteModel> GetNotes(GetNotesFilterModel model);
     }
 }

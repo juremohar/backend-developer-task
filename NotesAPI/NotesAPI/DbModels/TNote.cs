@@ -33,5 +33,7 @@ namespace NotesAPI.DbModels
         public List<TNoteBody> NoteBodies { get; set; }
 
         public TNoteBodyType NoteBodyType { get; set; }
+
+        public List<TNoteFolder> Folders { get; set; }
     }
 }

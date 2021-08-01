@@ -51,11 +51,7 @@ namespace NotesAPI.Services
                 .NoteFolder
                 .Where(x => x.IdFolder == idFolder);
 
-            // TODO: optimization - mass delete
-            foreach (var _folderNote in folderNotes) 
-            {
-                _db.NoteFolder.Remove(_folderNote);
-            }
+            _db.NoteFolder.RemoveRange(folderNotes);
 
             _db.Folders.Remove(folder);
             _db.SaveChanges();
@@ -107,15 +103,7 @@ namespace NotesAPI.Services
 
             var folders = _db.Folders.AsQueryable();
 
-            if (model.IdUser.HasValue) 
-            {
-                if (model.IdUser != userDetails.IdUser) 
-                {
-                    throw new Exception("you cannot access foreign folders");
-                }
-
-                folders = folders.Where(x => x.IdUser == model.IdUser);
-            }
+            folders = folders.Where(x => x.IdUser == userDetails.IdUser);
 
             if (!string.IsNullOrEmpty(model.Query)) 
             {
