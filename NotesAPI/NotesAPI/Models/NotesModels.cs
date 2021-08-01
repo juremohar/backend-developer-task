@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,16 +10,20 @@ namespace NotesAPI.Models
     public class InsertNoteModel 
     {
         public int? IdFolder { get; set; }
+        [Description("public or private")]
         public string VisibilityCode { get; set; }
         public string Title { get; set; }
+        [Description("single or private")]
         public string NoteBodyTypeCode { get; set; }
         public List<string> Body { get; set; }
     }
 
     public class UpdateNoteModel 
     {
+        [Description("public or private")]
         public string VisibilityCode { get; set; }
         public string Title { get; set; }
+        [Description("single or multiple")]
         public string NoteBodyTypeCode { get; set; }
         public List<string> Body { get; set; }
         public List<int> Folders { get; set; }
@@ -27,11 +32,14 @@ namespace NotesAPI.Models
     public class GetNotesFilterModel 
     {
         public int? IdFolder { get; set; }
+        [Description("public or private")]
         public string VisibilityCode { get; set; }
         public string Query { get; set; }
         public int Page { get; set; } = 1;
         public int Limit { get; set; } = 10;
+        [Description("visibility or heading")]
         public string OrderByField { get; set; }
+        [Description("asc or desc")]
         public string OrderByDirection { get; set; }
     }
 
