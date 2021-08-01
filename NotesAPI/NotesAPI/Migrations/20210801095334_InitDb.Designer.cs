@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NotesAPI.DbModels;
 
 namespace NotesAPI.Migrations
 {
     [DbContext(typeof(DbNotes))]
-    partial class DbNotesModelSnapshot : ModelSnapshot
+    [Migration("20210801095334_InitDb")]
+    partial class InitDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,21 +111,6 @@ namespace NotesAPI.Migrations
                     b.ToTable("NoteBodyTypes");
                 });
 
-            modelBuilder.Entity("NotesAPI.DbModels.TNoteFolder", b =>
-                {
-                    b.Property<int>("IdNote")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdFolder")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdNote", "IdFolder");
-
-                    b.HasIndex("IdFolder");
-
-                    b.ToTable("NotesFolders");
-                });
-
             modelBuilder.Entity("NotesAPI.DbModels.TNoteVisibility", b =>
                 {
                     b.Property<int>("IdVisibility")
@@ -211,25 +198,6 @@ namespace NotesAPI.Migrations
                         .HasForeignKey("IdNote")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Note");
-                });
-
-            modelBuilder.Entity("NotesAPI.DbModels.TNoteFolder", b =>
-                {
-                    b.HasOne("NotesAPI.DbModels.TFolder", "Folder")
-                        .WithMany()
-                        .HasForeignKey("IdFolder")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NotesAPI.DbModels.TNote", "Note")
-                        .WithMany()
-                        .HasForeignKey("IdNote")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Folder");
 
                     b.Navigation("Note");
                 });

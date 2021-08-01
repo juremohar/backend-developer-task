@@ -4,11 +4,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NotesAPI.Migrations
 {
-    public partial class SetupDatabase : Migration
+    public partial class InitDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "NoteBodyTypes",
+                columns: table => new
+                {
+                    IdNoteBodyType = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Code = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Title = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NoteBodyTypes", x => x.IdNoteBodyType);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -25,23 +42,6 @@ namespace NotesAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NoteVisibilites", x => x.IdVisibility);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "TNoteBodyType",
-                columns: table => new
-                {
-                    IdNoteBodyType = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Code = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Title = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TNoteBodyType", x => x.IdNoteBodyType);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -108,16 +108,16 @@ namespace NotesAPI.Migrations
                 {
                     table.PrimaryKey("PK_Notes", x => x.IdNote);
                     table.ForeignKey(
+                        name: "FK_Notes_NoteBodyTypes_IdNoteBodyType",
+                        column: x => x.IdNoteBodyType,
+                        principalTable: "NoteBodyTypes",
+                        principalColumn: "IdNoteBodyType",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Notes_NoteVisibilites_IdNoteVisibility",
                         column: x => x.IdNoteVisibility,
                         principalTable: "NoteVisibilites",
                         principalColumn: "IdVisibility",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Notes_TNoteBodyType_IdNoteBodyType",
-                        column: x => x.IdNoteBodyType,
-                        principalTable: "TNoteBodyType",
-                        principalColumn: "IdNoteBodyType",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Notes_Users_IdUser",
@@ -188,10 +188,10 @@ namespace NotesAPI.Migrations
                 name: "Notes");
 
             migrationBuilder.DropTable(
-                name: "NoteVisibilites");
+                name: "NoteBodyTypes");
 
             migrationBuilder.DropTable(
-                name: "TNoteBodyType");
+                name: "NoteVisibilites");
 
             migrationBuilder.DropTable(
                 name: "Users");

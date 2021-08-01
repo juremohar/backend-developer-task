@@ -33,29 +33,34 @@ namespace NotesAPI.Services
             if (context.Request.Headers.TryGetValue("Authorization", out var content))
             {
                 token = content.ToString().Substring("Basic ".Length);
-            }
-
-            Encoding encoding = Encoding.GetEncoding("iso-8859-1");
-            string usernamePassword = encoding.GetString(Convert.FromBase64String(token));
-
-            var split = usernamePassword.Split(':');
-
-            var userDetails = _db
-                .Users
-                .Where(x => x.Username.ToLower() == split.First().ToLower() && x.Password == split.Last())
-                .Select(x => new LoggedInUserModel
-                {
-                    IdUser = x.IdUser,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    Username = x.Username
-                })
-                .FirstOrDefault();
-
-            if (userDetails != null) 
-            {
-                _userDetails = userDetails;
             } 
+            // else other methods (cookies, ...)
+
+
+            if (token != null) 
+            {
+                Encoding encoding = Encoding.GetEncoding("iso-8859-1");
+                string usernamePassword = encoding.GetString(Convert.FromBase64String(token));
+
+                var split = usernamePassword.Split(':');
+
+                var userDetails = _db
+                    .Users
+                    .Where(x => x.Username.ToLower() == split.First().ToLower() && x.Password == split.Last())
+                    .Select(x => new LoggedInUserModel
+                    {
+                        IdUser = x.IdUser,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        Username = x.Username
+                    })
+                    .FirstOrDefault();
+
+                if (userDetails != null)
+                {
+                    _userDetails = userDetails;
+                }
+            }
         }
     }
 }

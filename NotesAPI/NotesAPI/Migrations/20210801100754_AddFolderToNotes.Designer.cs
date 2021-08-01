@@ -9,8 +9,8 @@ using NotesAPI.DbModels;
 namespace NotesAPI.Migrations
 {
     [DbContext(typeof(DbNotes))]
-    [Migration("20210731164258_SetupDatabase")]
-    partial class SetupDatabase
+    [Migration("20210801100754_AddFolderToNotes")]
+    partial class AddFolderToNotes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,6 +48,9 @@ namespace NotesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdFolder")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdNoteBodyType")
                         .HasColumnType("int");
 
@@ -65,6 +68,8 @@ namespace NotesAPI.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("IdNote");
+
+                    b.HasIndex("IdFolder");
 
                     b.HasIndex("IdNoteBodyType");
 
@@ -108,7 +113,7 @@ namespace NotesAPI.Migrations
 
                     b.HasKey("IdNoteBodyType");
 
-                    b.ToTable("TNoteBodyType");
+                    b.ToTable("NoteBodyTypes");
                 });
 
             modelBuilder.Entity("NotesAPI.DbModels.TNoteVisibility", b =>
@@ -166,6 +171,10 @@ namespace NotesAPI.Migrations
 
             modelBuilder.Entity("NotesAPI.DbModels.TNote", b =>
                 {
+                    b.HasOne("NotesAPI.DbModels.TFolder", "Folder")
+                        .WithMany()
+                        .HasForeignKey("IdFolder");
+
                     b.HasOne("NotesAPI.DbModels.TNoteBodyType", "NoteBodyType")
                         .WithMany()
                         .HasForeignKey("IdNoteBodyType")
@@ -183,6 +192,8 @@ namespace NotesAPI.Migrations
                         .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Folder");
 
                     b.Navigation("NoteBodyType");
 

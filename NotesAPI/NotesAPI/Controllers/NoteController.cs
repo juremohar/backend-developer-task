@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NotesAPI.Interfaces;
+using NotesAPI.Models;
 
 namespace NotesAPI.Controllers
 {
@@ -17,10 +18,18 @@ namespace NotesAPI.Controllers
             _noteService = noteService;
         }
 
-        [HttpGet]
-        public ActionResult<bool> Get()
+        [HttpPost]
+        public ActionResult<bool> Insert(InsertNoteModel model)
         {
-            _noteService.InsertNote();
+            _noteService.InsertNote(model);
+
+            return true;
+        }
+
+        [HttpDelete("{idNote}")]
+        public ActionResult<bool> Delete(int idNote)
+        {
+            _noteService.DeleteNote(idNote);
 
             return true;
         }

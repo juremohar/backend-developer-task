@@ -8,6 +8,7 @@ namespace NotesAPI.Interfaces
 {
     public interface INoteService
     {
-        void InsertNote();
+        void InsertNote(InsertNoteModel model);
+        void DeleteNote(int idNote);
     }
 }
