@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using NotesAPI.DbModels;
+using NotesAPI.Interfaces;
+using NotesAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,11 @@ namespace NotesAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NotesAPI", Version = "v1" });
             });
+
+            services.AddTransient<INoteService, NoteService>();
+
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
